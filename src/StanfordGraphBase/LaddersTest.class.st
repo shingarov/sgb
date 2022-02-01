@@ -4,9 +4,53 @@ Class {
 	#category : #StanfordGraphBase
 }
 
+{ #category : #'mock objects' }
+LaddersTest >> ladder [
+	^self ladderGraphFrom: self words
+	
+]
+
+{ #category : #'mock objects' }
+LaddersTest >> ladderGraphFrom: words [
+	| d |
+	d := Dictionary newFromAssociations: (words collect: [ :w | w -> Set new ]).
+	words doWithIndex: [ :word :i |
+		1 to: i-1 do: [ :j |
+			| prevWord |
+			prevWord := words at: j.
+			(prevWord isSimilarTo: word) ifTrue: [
+				(d at: prevWord) add: word.
+				(d at: word) add: prevWord.
+			]]].
+	^Graph fromDictionary: d
+	
+]
+
+{ #category : #tests }
+LaddersTest >> testBloodTears [
+	| g p |
+	g := self ladder.
+	p := g shortestPathFromNode: 'blood' to: 'tears'.
+	self assert: (p includes: 'bears')
+	
+]
+
 { #category : #tests }
 LaddersTest >> testCreateGraph [
-	self ladderGraphFrom: self words
+	| g chiffsRelatives |
+	g := self ladder.
+	chiffsRelatives := (g edgesOutOfVertex: (g vertexForNode: 'chiff')) collect: #value.
+	self assert: ((chiffsRelatives collect: [ :v | g nodeAtVertex: v ]) includes: 'cliff')
+	
+]
+
+{ #category : #tests }
+LaddersTest >> testCreateSmallGraph [
+	| g |
+	g := self ladderGraphFrom: { 'abaca'. 'aback'. 'chiff'. }.
+	self assert: g vertices size equals: 3.
+	self assert: (g indegreeOf: (g vertexForNode: 'chiff')) equals: 0.
+	self assert: (g outdegreeOf: (g vertexForNode: 'chiff')) equals: 0.
 ]
 
 { #category : #tests }
