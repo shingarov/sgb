@@ -27,7 +27,13 @@ LaddersTest >> testSimilarTo [
 	self assert: ('anna' distanceTo: 'alma') equals: 2.
 ]
 
-{ #category : #tests }
+{ #category : #'mock objects' }
 LaddersTest >> words [
-	^(ZnClient new get: 'https://www-cs-faculty.stanford.edu/~knuth/sgb-words.txt') lines
+	| f |
+	"hardcode path for now, as self package iceRepository --> walkbacks"
+	f := '/home/boris/PHARO-ALL/sprite/pharo-local/iceberg/sgb/knuth/words.dat' asFileReference readStream.
+	^f contents lines
+		reject: [ :line | line first = $* ]
+		thenCollect: [ :line | line copyFrom: 1 to: 5 ]
+
 ]
