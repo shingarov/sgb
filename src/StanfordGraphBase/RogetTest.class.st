@@ -13,6 +13,7 @@ RogetTest >> lines [
 
 { #category : #'mock objects' }
 RogetTest >> roget [
+	<gtExample>
 	^Graph fromEdges: self triples
 ]
 

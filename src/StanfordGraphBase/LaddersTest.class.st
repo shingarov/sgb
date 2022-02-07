@@ -6,6 +6,7 @@ Class {
 
 { #category : #'mock objects' }
 LaddersTest >> ladder [
+	<gtExample>
 	^self ladderGraphFrom: self words
 	
 ]
