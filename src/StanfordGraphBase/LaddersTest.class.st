@@ -31,7 +31,7 @@ LaddersTest >> ladderGraphFrom: words [
 LaddersTest >> testBloodTears [
 	| g p |
 	g := self ladder.
-	p := g shortestPathFromNode: 'blood' to: 'tears'.
+	p := g shortestPathFromKey: 'blood' to: 'tears'.
 	self assert: (p includes: 'bears')
 	
 ]
@@ -40,8 +40,8 @@ LaddersTest >> testBloodTears [
 LaddersTest >> testCreateGraph [
 	| g chiffsRelatives |
 	g := self ladder.
-	chiffsRelatives := (g edgesOutOfVertex: (g vertexForNode: 'chiff')) collect: #value.
-	self assert: ((chiffsRelatives collect: [ :v | g nodeAtVertex: v ]) includes: 'cliff')
+	chiffsRelatives := (g edgesOutOfVertex: (g vertexAtKey: 'chiff')) collect: #value.
+	self assert: ((chiffsRelatives collect: [ :v | g keyAtVertex: v ]) includes: 'cliff')
 	
 ]
 
@@ -50,8 +50,8 @@ LaddersTest >> testCreateSmallGraph [
 	| g |
 	g := self ladderGraphFrom: { 'abaca'. 'aback'. 'chiff'. }.
 	self assert: g vertices size equals: 3.
-	self assert: (g indegreeOf: (g vertexForNode: 'chiff')) equals: 0.
-	self assert: (g outdegreeOf: (g vertexForNode: 'chiff')) equals: 0.
+	self assert: (g indegreeOf: (g vertexAtKey: 'chiff')) equals: 0.
+	self assert: (g outdegreeOf: (g vertexAtKey: 'chiff')) equals: 0.
 ]
 
 { #category : #tests }

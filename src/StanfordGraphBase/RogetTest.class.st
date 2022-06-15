@@ -14,7 +14,7 @@ RogetTest >> lines [
 { #category : #'mock objects' }
 RogetTest >> roget [
 	<gtExample>
-	^Graph fromEdges: self triples
+	^Graph fromTriples: self triples
 ]
 
 { #category : #tests }
@@ -51,6 +51,6 @@ RogetTest >> triples [
 		name := l last: l size - lastLetterIndex.
 		adjacent := $  split: lr last.
 		adjacent := adjacent collect: #asInteger.
-		{ name. i. adjacent. }
+		{ i. adjacent. name. }
 	]
 ]
