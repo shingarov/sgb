@@ -6,9 +6,18 @@ Class {
 
 { #category : #private }
 RogetTest >> lines [
+	| r line |
+	r := OrderedCollection new.
+	line := ''.
 	"hardcode path for now, as self package iceRepository --> walkbacks"
-	^'/home/boris/PHARO-ALL/sprite/pharo-local/iceberg/sgb/roget_j.dat'
-			asFileReference readStream contents lines
+	('/home/boris/PHARO-ALL/sprite/pharo-local/iceberg/sgb/knuth/roget.dat'
+		asFileReference readStream contents lines
+		reject: [ :line | line isEmpty or: [ line first = $* ]]
+	) do: [ :each | each last = $\
+		ifTrue: [ line := line, each allButLast ]
+		ifFalse: [ r add: line, each. line := '' ]
+	].
+	^r
 ]
 
 { #category : #'mock objects' }
